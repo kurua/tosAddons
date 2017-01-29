@@ -24,8 +24,6 @@ if not g.loaded then
   };
 end
 
-CHAT_SYSTEM(string.format("[%s] %s loaded.", addonNameLower, g._version));
-
 function CHATSOUNDS_ON_INIT(addon, frame)
 
   g.addon = addon;
@@ -36,16 +34,17 @@ function CHATSOUNDS_ON_INIT(addon, frame)
   if not g.loaded then
     local t, err = acutil.loadJSON(g.settingsFileLoc, g.settings);
     if err then
-      CHAT_SYSTEM(string.format("[%s] Can't load setting files.", addonNameLower));
+      CHAT_SYSTEM("[ChatSounds] Can't load setting files.");
     else
       g.settings = t;
     end
     acutil.saveJSON(g.settingsFileLoc, g.settings);
     acutil.slashCommand("/"..addonNameLower, CHATSOUNDS_PROCESS_COMMAND);
-    addon:RegisterMsg("GAME_START_3SEC", "CHATSOUNDS_ON_GAME_START_DELAY");
+    CHAT_SYSTEM(string.format("[ChatSounds] %s loaded.", g._version));
     CHATSOUNDS_SHOW_STATUS();
     g.loaded = true;
   end
+  addon:RegisterMsg("GAME_START_3SEC", "CHATSOUNDS_ON_GAME_START_DELAY");
 
 end
 --==============================
